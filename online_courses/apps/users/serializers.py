@@ -11,7 +11,6 @@ class UserSerializer(serializers.ModelSerializer):
     role = serializers.ChoiceField(choices=ROLE_TYPES, write_only=True)
 
     specialty = serializers.CharField(max_length=50, write_only=True)
-    # object = serializers.CharField(max_length=50)
 
     class Meta:
         model = User
@@ -24,7 +23,6 @@ class UserSerializer(serializers.ModelSerializer):
         password = validated_data.pop('password', None)
         role = validated_data.pop('role', None)
         specialty = validated_data.pop('specialty', None)
-        # object = validated_data.pop('object', None)
         instance = self.Meta.model(**validated_data)
         if password is not None:
             instance.set_password(password)

@@ -5,17 +5,20 @@ from django.shortcuts import render
 from rest_framework import generics, viewsets, mixins, status
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework.viewsets import GenericViewSet
 
 from .models import Course, IntermediateCourseTeacher, IntermediateCourseStudent
 from .serializers import CourseSerializer, IntermediateCourseTeacherSerializer, IntermediateCourseStudentSerializer
 from ..students.models import Student
 from ..teachers.models import Teacher
-from ..teachers.serializers import TeacherSerializer
 
 
 # Create your views here.
 class CourseViewSet(viewsets.ModelViewSet):
+    """
+    CRUD courses by teachers
+    get(retrieve) for students
+    """
+    # If the course is his course
     queryset = Course.objects.all()
     serializer_class = CourseSerializer
 
@@ -47,7 +50,10 @@ class CourseViewSet(viewsets.ModelViewSet):
 
 
 class AddTeacher(APIView):
-
+    """
+    Adding a new teacher to his course
+    """
+    # If the course is his course
     def post(self, request):
         serializer = IntermediateCourseTeacherSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -57,7 +63,10 @@ class AddTeacher(APIView):
 
 
 class AddDeleteStudent(APIView):
-
+    """
+    Adding/Deleting a Student to his Course
+    """
+    # If the course is his course
     def post(self, request):
         serializer = IntermediateCourseStudentSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)

@@ -8,10 +8,9 @@ from apps.marks.serializers import MarkSerializer, CommentSerializer
 from apps.students.models import Student
 
 
-# Create your views here.
-# class MarkViewSet(viewsets.ModelViewSet):
-#     queryset = Mark.objects.all()
-#     serializer_class = MarkSerializer
+class MarkViewSet(viewsets.ModelViewSet):
+    queryset = Mark.objects.all()
+    serializer_class = MarkSerializer
 
 class Comments(APIView):
 
@@ -37,6 +36,7 @@ class MyMarks(APIView):
 
     def get(self, request):
         student = Student.objects.get(user=request.user.uuid)
-        completed_homeworks = student.home_task_set.all().
-        serializer = MarkSerializer(student_marks, many=True)
+        completed_homeworks = student.home_task_set.all()
+        serializer = MarkSerializer(marks, many=True)
         return Response(serializer.data)
+

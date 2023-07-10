@@ -13,6 +13,10 @@ from ..teachers.serializers import TeacherSerializer
 
 # Create your views here.
 class RegisterView(APIView):
+    """
+    Registration a new user in system
+    """
+    #field specialty
     serializer_class = UserSerializer
     def post(self, request):
         role = request.data.get('role')
@@ -34,48 +38,3 @@ class RegisterView(APIView):
             serializer_teacher.save()
 
         return Response(serializer.data)
-
-# class LoginView(APIView):
-#     def post(self, request):
-#         username = request.data['username']
-#         password = request.data['password']
-#         user = User.objects.filter(username=username).first()
-#
-#         if User is None:
-#             raise AuthenticationFailed('User not found!')
-#
-#         if not user.check_password(password):
-#             raise AuthenticationFailed('Incorrect password!')
-#
-#         payload = {
-#             'uuid': str(user.uuid),
-#             'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=60),
-#             'iat': datetime.datetime.utcnow()
-#         }
-#
-#         token = jwt.encode(payload, 'secret', algorithm='HS256')
-#
-#         response = Response()
-#
-#         response.set_cookie(key='jwt', value=token, httponly=True)
-#         response.data = {
-#             'jwt': token
-#         }
-#         return response
-
-# class UserView(APIView):
-#
-#     def get(self, request):
-#         token = request.COOKIES.get('jwt')
-#
-#         if not token:
-#             raise AuthenticationFailed('Unauthenticated!')
-#
-#         try:
-#             payload = jwt.decode(token, 'secret', algorithms=['HS256'])
-#         except jwt.ExpiredSignatureError:
-#             raise AuthenticationFailed('Unauthenticated!')
-#
-#         user = User.objects.filter(uuid=payload['uuid']).first()
-#         serializer = UserSerializer(user)
-#         return Response(serializer.data)

@@ -11,6 +11,9 @@ from apps.students.models import Student
 
 # Create your views here.
 class HomeTask(APIView):
+    """
+    Add homework assignments to each lecture (Text information)
+    """
     def get(self, request):
 
         lectures = request.data["lectures"]

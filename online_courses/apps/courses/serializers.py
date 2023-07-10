@@ -5,12 +5,14 @@ from .models import Course, IntermediateCourseTeacher, IntermediateCourseStudent
 class CourseSerializer(serializers.ModelSerializer):
     class Meta:
         model = Course
-        fields = '__all__'
+        fields = ['uuid', 'name', 'specialty']
+
 
 class IntermediateCourseTeacherSerializer(serializers.ModelSerializer):
     class Meta:
         model = IntermediateCourseTeacher
         fields = '__all__'
+
 
 class IntermediateCourseStudentSerializer(serializers.ModelSerializer):
     class Meta:

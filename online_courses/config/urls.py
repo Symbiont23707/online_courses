@@ -29,7 +29,7 @@ urlpatterns = [
     path('api/v1/api-auth/', include('rest_framework.urls')),
     path('api/v1/users/', include('apps.users.urls')),
     path('api/v1/courses/', include('apps.courses.urls')),
-    path('api/v1/teachers/', include('apps.teachers.urls')),
+    # path('api/v1/teachers/', include('apps.teachers.urls')),
     path('api/v1/lectures/', include('apps.lectures.urls')),
     path('api/v1/home_tasks/', include('apps.home_tasks.urls')),
     path('api/v1/marks/', include('apps.marks.urls')),

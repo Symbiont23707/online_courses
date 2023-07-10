@@ -3,7 +3,7 @@ from rest_framework import viewsets
 from rest_framework.response import Response
 
 
-# Create your views here.
+
 # class TeacherCourseViewSet(viewsets.ModelViewSet):
 #     queryset = TeacherCourse.objects.all()
 #     serializer_class = TeacherCourseSerializer
@@ -15,6 +15,6 @@ from rest_framework.response import Response
 #         serializer_teacher_course.save()
 #
 #         return Response(serializer_teacher_course.data)
-#
-#     # def get_queryset(self):
-#     #     return super().get_queryset().filter(uuid=self.request.user.uuid)
+
+    # def get_queryset(self):
+    #     return super().get_queryset().filter(uuid=self.request.user.uuid)
