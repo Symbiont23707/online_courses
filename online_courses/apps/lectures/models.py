@@ -1,6 +1,6 @@
 from django.db import models
 from apps.courses.models import Course
-from apps.users.models import BaseUUIDModel
+from libs.abstract_models import BaseUUIDModel
 
 
 # Create your models here.

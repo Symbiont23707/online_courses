@@ -24,13 +24,5 @@ from rest_framework_simplejwt.views import (
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/v1/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
-    path('api/v1/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
-    path('api/v1/api-auth/', include('rest_framework.urls')),
-    path('api/v1/users/', include('apps.users.urls')),
-    path('api/v1/courses/', include('apps.courses.urls')),
-    # path('api/v1/teachers/', include('apps.teachers.urls')),
-    path('api/v1/lectures/', include('apps.lectures.urls')),
-    path('api/v1/home_tasks/', include('apps.home_tasks.urls')),
-    path('api/v1/marks/', include('apps.marks.urls')),
+    path('api/v1/', include('api.v1.urls'))
 ]
