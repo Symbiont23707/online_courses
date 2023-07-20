@@ -12,5 +12,5 @@ class HomeTask(BaseUUIDModel):
 
 class HomeTaskResult(BaseUUIDModel):
     home_task = models.ForeignKey(HomeTask, on_delete=models.CASCADE)
-    student = models.OneToOneField(Student, on_delete=models.CASCADE)
+    student = models.ForeignKey(Student, on_delete=models.CASCADE)
     answer = models.CharField(max_length=1000, default='')

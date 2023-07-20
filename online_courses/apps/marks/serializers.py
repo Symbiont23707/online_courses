@@ -2,6 +2,7 @@ from rest_framework import serializers
 from rest_framework.fields import CurrentUserDefault
 
 from apps.errors import ErrorMessage
+from apps.home_tasks.models import HomeTaskResult
 from apps.marks.models import Mark, Comment
 
 
@@ -14,8 +15,10 @@ class MarkSerializer(serializers.ModelSerializer):
 
     def validate(self, attrs):
         home_task_result = attrs['home_task_result']
+        user = self.context['request'].user
 
-        if not home_task_result.home_task.lectures.course.teachers.filter(user=self.context['request'].user).exists():
+        if not HomeTaskResult.objects.filter(uuid=home_task_result.uuid,
+                                             home_task__lectures__course__teachers__user=user).exists():
             raise serializers.ValidationError(ErrorMessage.PER001.value)
 
         return attrs
