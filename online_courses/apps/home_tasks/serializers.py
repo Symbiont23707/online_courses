@@ -1,36 +1,34 @@
 from rest_framework import serializers
-from .models import Home_task, HomeTaskResult
-from ..users.models import Student
+from .models import HomeTaskResult, HomeTask
+from ..errors import ErrorMessage
+from ..fields import CurrentStudentDefault
 
 
-class Home_taskSerializer(serializers.ModelSerializer):
+class HomeTaskSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Home_task
+        model = HomeTask
         fields = '__all__'
 
     def validate(self, attrs):
         lectures = attrs['lectures']
 
         if not lectures.course.teachers.filter(user=self.context['request'].user).exists():
-            raise serializers.ValidationError("Teacher does not permission to this lecture.")
+            raise serializers.ValidationError(ErrorMessage.PER001.value)
 
         return attrs
 
 
 class HomeTaskResultSerializer(serializers.ModelSerializer):
+    student = serializers.HiddenField(default=CurrentStudentDefault())
+
     class Meta:
         model = HomeTaskResult
-        fields = ['uuid', 'home_tasks', 'answer']
-
-    def create(self, validated_data):
-        validated_data['students'] = self.context['request'].user.student
-        home_task_result = super().create(validated_data)
-        return home_task_result
+        fields = ['uuid', 'home_task', 'answer', 'student']
 
     def validate(self, attrs):
-        home_tasks = attrs['home_tasks']
+        home_task = attrs['home_task']
 
-        if not home_tasks.lectures.course.students.filter(user=self.context['request'].user).exists():
-            raise serializers.ValidationError("Student does not permission to this home task.")
+        if not home_task.lectures.course.students.filter(user=self.context['request'].user).exists():
+            raise serializers.ValidationError(ErrorMessage.PER002.value)
 
         return attrs

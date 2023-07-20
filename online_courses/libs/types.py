@@ -1,7 +1,4 @@
-ROLE_TYPES = (
-    ('Teacher', 'teacher'),
-    ('Student', 'student')
-)
+from django.db import models
 
 MARK_TYPES = (
     ('done', 'Done'),
@@ -9,3 +6,8 @@ MARK_TYPES = (
     ('not provided', 'Not provided'),
     ('overdue', 'Overdue')
 )
+
+
+class RoleTypes(models.TextChoices):
+    Teacher = 'Teacher'
+    Student = 'Student'

@@ -3,16 +3,15 @@ from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import generics
 
 from apps.courses.permissions import IsTeacherOrReadOnly, IsStudentOrReadOnly
-from apps.home_tasks.models import Home_task, HomeTaskResult
-from apps.home_tasks.serializers import Home_taskSerializer, HomeTaskResultSerializer
+from apps.home_tasks.models import HomeTaskResult, HomeTask
+from apps.home_tasks.serializers import HomeTaskSerializer, HomeTaskResultSerializer
 
 
-class Home_taskAPIView(generics.ListCreateAPIView):
-    queryset = Home_task.objects.all()
-    serializer_class = Home_taskSerializer
+class HomeTaskAPIView(generics.ListCreateAPIView):
+    queryset = HomeTask.objects.all()
+    serializer_class = HomeTaskSerializer
     permission_classes = (IsTeacherOrReadOnly,)
     filter_backends = [DjangoFilterBackend]
-    ordering_fields = ['rating']
 
     def get_queryset(self):
         return super().get_queryset().filter(
@@ -21,9 +20,9 @@ class Home_taskAPIView(generics.ListCreateAPIView):
         ).select_related('lectures')
 
 
-class Home_taskDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Home_task.objects.all()
-    serializer_class = Home_taskSerializer
+class HomeTaskDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = HomeTask.objects.all()
+    serializer_class = HomeTaskSerializer
     lookup_field = 'uuid'
     permission_classes = (IsTeacherOrReadOnly,)
 
@@ -41,9 +40,9 @@ class HomeTaskResultAPIView(generics.ListCreateAPIView):
 
     def get_queryset(self):
         return super().get_queryset().filter(
-            Q(home_tasks__lectures__course__students__user=self.request.user)
-            | Q(home_tasks__lectures__course__teachers__user=self.request.user)
-        ).select_related('home_tasks')
+            Q(home_task__lectures__course__students__user=self.request.user)
+            | Q(home_task__lectures__course__teachers__user=self.request.user)
+        ).select_related('home_task')
 
 
 class HomeTaskResultDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
@@ -54,6 +53,6 @@ class HomeTaskResultDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
 
     def get_queryset(self):
         return super().get_queryset().filter(
-            Q(home_tasks__lectures__course__students__user=self.request.user)
-            | Q(home_tasks__lectures__course__teachers__user=self.request.user)
+            Q(home_task__lectures__course__students__user=self.request.user)
+            | Q(home_task__lectures__course__teachers__user=self.request.user)
         )

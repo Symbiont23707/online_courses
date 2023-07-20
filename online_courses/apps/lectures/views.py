@@ -17,7 +17,7 @@ class LectureAPIView(generics.ListCreateAPIView):
         return super().get_queryset().filter(
             Q(course__students__user=self.request.user)
             | Q(course__teachers__user=self.request.user)
-        ).select_related('course')
+        )
 
 
 class LectureDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
@@ -41,5 +41,5 @@ class LectureByCourseAPIView(generics.ListAPIView):
     def get_queryset(self):
         return super().get_queryset().filter(Q(course=self.kwargs['uuid'])
                                              & (Q(course__students__user=self.request.user)
-                                             | Q(course__teachers__user=self.request.user))
+                                                | Q(course__teachers__user=self.request.user))
                                              )

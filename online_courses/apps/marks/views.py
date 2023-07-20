@@ -1,12 +1,9 @@
-
-
 from django.db.models import Q
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import generics
 from apps.courses.permissions import IsTeacherOrReadOnly
 from apps.marks.models import Mark, Comment
 from apps.marks.serializers import MarkSerializer, CommentSerializer
-
 
 
 class MarkAPIView(generics.ListCreateAPIView):
@@ -18,8 +15,8 @@ class MarkAPIView(generics.ListCreateAPIView):
 
     def get_queryset(self):
         return super().get_queryset().filter(
-            Q(home_task_result__students__user=self.request.user)
-            | Q(home_task_result__home_tasks__lectures__course__teachers__user=self.request.user)
+            Q(home_task_result__student__user=self.request.user)
+            | Q(home_task_result__home_task__lectures__course__teachers__user=self.request.user)
         ).select_related('home_task_result')
 
 
@@ -31,8 +28,8 @@ class MarkDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
 
     def get_queryset(self):
         return super().get_queryset().filter(
-            Q(home_task_result__students__user=self.request.user)
-            | Q(home_task_result__home_tasks__lectures__course__teachers__user=self.request.user)
+            Q(home_task_result__student__user=self.request.user)
+            | Q(home_task_result__home_task__lectures__course__teachers__user=self.request.user)
         )
 
 
@@ -42,8 +39,8 @@ class CommentAPIView(generics.ListCreateAPIView):
 
     def get_queryset(self):
         return super().get_queryset().filter(
-            Q(mark__home_task_result__students__user=self.request.user)
-            | Q(mark__home_task_result__home_tasks__lectures__course__teachers__user=self.request.user)
+            Q(mark__home_task_result__student__user=self.request.user)
+            | Q(mark__home_task_result__home_task__lectures__course__teachers__user=self.request.user)
         ).select_related('mark')
 
 
@@ -55,6 +52,6 @@ class CommentDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
 
     def get_queryset(self):
         return super().get_queryset().filter(
-            Q(mark__home_task_result__students__user=self.request.user)
-            | Q(mark__home_task_result__home_tasks__lectures__course__teachers__user=self.request.user)
+            Q(mark__home_task_result__student__user=self.request.user)
+            | Q(mark__home_task_result__home_task__lectures__course__teachers__user=self.request.user)
         )

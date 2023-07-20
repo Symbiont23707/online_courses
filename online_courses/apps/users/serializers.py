@@ -1,11 +1,11 @@
 from rest_framework import serializers
 
-from libs.types import ROLE_TYPES
+from libs.types import RoleTypes
 from .models import User, Student, Teacher
 
 
 class UserSerializer(serializers.ModelSerializer):
-    role = serializers.ChoiceField(choices=ROLE_TYPES, write_only=True)
+    role = serializers.ChoiceField(choices=RoleTypes.choices, write_only=True)
     specialty = serializers.CharField(max_length=50, write_only=True, required=False)
 
     class Meta:
@@ -23,10 +23,11 @@ class UserSerializer(serializers.ModelSerializer):
         if password is not None:
             user.set_password(password)
         user.save()
-        if role == "Student":
-            Student.objects.create(user=user, specialty=specialty)
-        else:
-            Teacher.objects.create(user=user)
+        roles_map = {
+            RoleTypes.Student: (Student, {'user': user, 'specialty': specialty}),
+            RoleTypes.Teacher: (Teacher, {'user': user}),
+        }
+        model, kwargs = roles_map[role]
+        model.objects.create(**kwargs)
 
         return user
-

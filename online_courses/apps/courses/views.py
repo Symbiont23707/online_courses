@@ -7,6 +7,7 @@ from .models import Course
 from .permissions import IsTeacherOrReadOnly
 from .serializers import CourseSerializer
 
+
 class CourseAPIView(generics.ListCreateAPIView):
     queryset = Course.objects.all()
     serializer_class = CourseSerializer
@@ -14,7 +15,6 @@ class CourseAPIView(generics.ListCreateAPIView):
     filter_backends = [DjangoFilterBackend, OrderingFilter]
     filterset_fields = ['name', 'specialty']
     orderingset_fields = ['name']
-
 
     def get_queryset(self):
         return super().get_queryset().filter(

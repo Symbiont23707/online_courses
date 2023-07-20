@@ -47,7 +47,6 @@ INSTALLED_APPS = [
     'rest_framework',
     'drf_yasg',
     'django_filters',
-    'debug_toolbar',
     'apps',
 ]
 
@@ -59,7 +58,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
 ROOT_URLCONF = 'config.urls'
@@ -168,9 +166,6 @@ SIMPLE_JWT = {
     "USER_ID_FIELD": "uuid"
 }
 
-INTERNAL_IPS = [
-    '127.0.0.1',
-]
 
 LOGGING = {
     "version": 1,
