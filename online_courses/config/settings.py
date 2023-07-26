@@ -13,13 +13,15 @@ import sys
 from pathlib import Path
 import os
 from datetime import timedelta
+from celery import Celery
+from django.conf import settings
 
 from dotenv import load_dotenv
+
 load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
@@ -31,7 +33,6 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
 
 # Application definition
 
@@ -47,6 +48,9 @@ INSTALLED_APPS = [
     'rest_framework',
     'drf_yasg',
     'django_filters',
+    'django_celery_beat',
+    'django_celery_results',
+    'django_redis',
     'apps',
 ]
 
@@ -80,7 +84,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'config.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
@@ -94,8 +97,6 @@ DATABASES = {
         'PORT': 5432,
     }
 }
-
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
@@ -115,7 +116,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
 
@@ -128,7 +128,6 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
@@ -166,7 +165,6 @@ SIMPLE_JWT = {
     "USER_ID_FIELD": "uuid"
 }
 
-
 LOGGING = {
     "version": 1,
     "disable_existing_loggers": False,
@@ -197,5 +195,24 @@ LOGGING = {
             "propagate": False,
         },
 
+    },
+}
+
+CELERY_BROKER_URL = 'redis://redis:6379'
+CELERY_TIMEZONE = 'Europe/Minsk'
+# CELERY_RESULT_BACKEND = os.environ.get("CELERY_BROKER", "redis://redis:6379/0")
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'localhost'
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'sampletextsampletext4@gmail.com'
+EMAIL_HOST_PASSWORD = 'Adminadmin2001'
+EMAIL_USE_SSL = False
+
+CELERY_BEAT_SCHEDULE = {
+    'send_lecture_notifications': {
+        'task': 'apps.tasks.send_lecture_notifications',
+        'schedule': 10.0,
     },
 }

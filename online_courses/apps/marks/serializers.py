@@ -8,6 +8,7 @@ from apps.marks.models import Mark, Comment
 
 class MarkSerializer(serializers.ModelSerializer):
     created_by = serializers.HiddenField(default=CurrentUserDefault())
+
     class Meta:
         model = Mark
         fields = ['uuid', 'rating', 'home_task_result', 'created_by']

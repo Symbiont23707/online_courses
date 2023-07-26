@@ -3,8 +3,8 @@ from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import generics
 
 from apps.courses.permissions import IsTeacherOrReadOnly
-from apps.lectures.models import Lecture
-from apps.lectures.serializers import LectureSerializer
+from apps.lectures.models import Lecture, Schedule
+from apps.lectures.serializers import LectureSerializer, ScheduleSerializer
 
 
 class LectureAPIView(generics.ListCreateAPIView):
@@ -43,3 +43,15 @@ class LectureByCourseAPIView(generics.ListAPIView):
                                              & (Q(course__students__user=self.request.user)
                                                 | Q(course__teachers__user=self.request.user))
                                              )
+
+
+class ScheduleAPIView(generics.ListCreateAPIView):
+    queryset = Schedule.objects.all()
+    serializer_class = ScheduleSerializer
+    permission_classes = ()
+
+
+class ScheduleDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Schedule.objects.all()
+    serializer_class = ScheduleSerializer
+    lookup_field = 'uuid'

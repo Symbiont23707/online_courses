@@ -1,7 +1,8 @@
+version: "3"
 services:
   web-app:
-    build:
-      context: .
+    build: .
+    container_name: web-app
     ports:
       - "8000:8000"
     volumes:
@@ -10,16 +11,44 @@ services:
       sh -c "python manage.py runserver 0.0.0.0:8000"
     depends_on:
       - database
+      - redis
+    environment:
+      - DJANGO_ALLOWED_HOSTS=localhost 127.0.0.1 [::1]
+      - CELERY_BROKER=redis://redis:6379/0
+      - CELERY_BACKEND=redis://redis:6379/0
+
+  worker:
+    restart: always
+    build: .
+    command: celery -A config worker
+    environment:
+      - DJANGO_SETTINGS_MODULE=config.settings
+    depends_on:
+      - web-app
+      - redis
+
+  celery-beats:
+    restart: always
+    build: .
+    command: celery -A config beat --scheduler django_celery_beat.schedulers:DatabaseScheduler
 
   database:
-   image: postgres:14
-   ports:
-     - "5432:5432"
-   hostname: course
-   environment:
-     - POSTGRES_DB=course_db
-     - POSTGRES_USER=myuser
-     - POSTGRES_PASSWORD=pass
-     - POSTGRES_HOST=course_host
-   
+    image: postgres:14
+    container_name: database
+    ports:
+      - "5432:5432"
+    hostname: course
+    environment:
+      - POSTGRES_DB=course_db
+      - POSTGRES_USER=myuser
+      - POSTGRES_PASSWORD=pass
+      - POSTGRES_HOST=course_host
+    volumes:
+      - ./database:/app/database
 
+  redis:
+    image: redis:alpine
+    restart: always
+
+volumes:
+  database:
