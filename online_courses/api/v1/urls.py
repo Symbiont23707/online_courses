@@ -1,10 +1,10 @@
 from django.urls import path, include
 
+from apps.consumers import LectureNotificationConsumer
 from apps.courses.views import CourseAPIView, CourseDetailAPIView
 from apps.home_tasks.views import HomeTaskAPIView, HomeTaskResultAPIView, HomeTaskDetailAPIView, \
     HomeTaskResultDetailAPIView
-from apps.lectures.views import LectureAPIView, LectureDetailAPIView, LectureByCourseAPIView, ScheduleAPIView, \
-    ScheduleDetailAPIView
+from apps.lectures.views import LectureAPIView, LectureDetailAPIView, LectureByCourseAPIView
 from apps.marks.views import MarkAPIView, MarkDetailAPIView, CommentAPIView, CommentDetailAPIView
 from apps.users.views import RegisterView
 
@@ -21,8 +21,6 @@ urlpatterns = [
     path('lectures/', include([
         path('', LectureAPIView.as_view()),
         path('<uuid:uuid>/', LectureDetailAPIView.as_view()),
-        path('schedule/', ScheduleAPIView.as_view()),
-        path('schedule/<uuid:uuid>/', ScheduleDetailAPIView.as_view())
     ])),
     path('home_tasks/', include([
         path('', HomeTaskAPIView.as_view()),

@@ -8,6 +8,10 @@ MARK_TYPES = (
 )
 
 
+class MessageEmail:
+    message = f'Lecture will be in '
+
+
 class RoleTypes(models.TextChoices):
     Teacher = 'Teacher'
     Student = 'Student'
@@ -27,3 +31,12 @@ class Intervals(models.TextChoices):
     day = 'day',
     week = 'week',
     month = 'month'
+
+
+class StatusLecture(models.TextChoices):
+    active = 'active'
+    inactive = 'inactive'
+
+
+class WS:
+    WS_LECTURE_NOTIFICATIONS = 'lecture_notification'

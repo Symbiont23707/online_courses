@@ -2,7 +2,7 @@ import arrow
 from django.core.validators import MaxValueValidator, MinValueValidator
 from rest_framework import serializers
 
-from libs.types import Weekdays, Intervals
+from libs.types import Weekdays, Intervals, StatusLecture
 from .models import Lecture
 from ..courses.models import Course
 from ..errors import ErrorMessage
@@ -10,9 +10,9 @@ from ..errors import ErrorMessage
 
 class Schedule(serializers.Serializer):
     interval = serializers.ChoiceField(choices=Intervals)
-    weekday = serializers.CharField(max_length=12)
+    weekday = serializers.ChoiceField(choices=Weekdays, allow_null=True)
     day = serializers.IntegerField(
-        validators=[MaxValueValidator(31), MinValueValidator(1)]
+        validators=[MaxValueValidator(31), MinValueValidator(1)], allow_null=True
     )
     hour = serializers.IntegerField(
         validators=[MaxValueValidator(23), MinValueValidator(0)]
@@ -20,7 +20,7 @@ class Schedule(serializers.Serializer):
     minute = serializers.IntegerField(
         validators=[MaxValueValidator(59), MinValueValidator(0)]
     )
-    active = serializers.BaseSerializer()
+    active = serializers.ChoiceField(choices=StatusLecture)
 
 
 class LectureSerializer(serializers.ModelSerializer):

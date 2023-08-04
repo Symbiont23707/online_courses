@@ -34,9 +34,9 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-# Application definition
-
 INSTALLED_APPS = [
+    'channels',
+    'daphne',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -83,6 +83,8 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'config.wsgi.application'
+ASGI_APPLICATION = 'config.asgi.application'
+
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
@@ -202,13 +204,13 @@ CELERY_BROKER_URL = 'redis://redis:6379'
 CELERY_TIMEZONE = 'Europe/Minsk'
 # CELERY_RESULT_BACKEND = os.environ.get("CELERY_BROKER", "redis://redis:6379/0")
 
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'localhost'
-EMAIL_USE_TLS = True
-EMAIL_PORT = 587
+EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'sampletextsampletext4@gmail.com'
 EMAIL_HOST_PASSWORD = 'Adminadmin2001'
-EMAIL_USE_SSL = False
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
 
 CELERY_BEAT_SCHEDULE = {
     'send_lecture_notifications': {
@@ -216,3 +218,14 @@ CELERY_BEAT_SCHEDULE = {
         'schedule': 10.0,
     },
 }
+
+
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [("redis", 6379)],
+        },
+    },
+}
+
