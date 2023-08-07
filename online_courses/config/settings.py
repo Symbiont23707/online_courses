@@ -204,18 +204,19 @@ CELERY_BROKER_URL = 'redis://redis:6379'
 CELERY_TIMEZONE = 'Europe/Minsk'
 # CELERY_RESULT_BACKEND = os.environ.get("CELERY_BROKER", "redis://redis:6379/0")
 
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'sampletextsampletext4@gmail.com'
-EMAIL_HOST_PASSWORD = 'Adminadmin2001'
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
+DEFAULT_FROM_EMAIL = 'webmaster@localhost'
+EMAIL_HOST = '172.17.0.1'
+EMAIL_PORT = 1025
+EMAIL_HOST_USER = ''
+EMAIL_HOST_PASSWORD = ''
+EMAIL_USE_TLS = False
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
 
 CELERY_BEAT_SCHEDULE = {
     'send_lecture_notifications': {
         'task': 'apps.tasks.send_lecture_notifications',
-        'schedule': 10.0,
+        'schedule': 60.0,
     },
 }
 

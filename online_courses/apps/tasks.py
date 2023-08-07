@@ -18,6 +18,7 @@ def get_lecture_notification(lecture_uuid):
 def send_lecture_notifications():
     # now = arrow.utcnow() #UTC
     now = arrow.now('Europe/Minsk').shift(hours=+1)
+    print(now)
     lectures_to_notify = Lecture.objects.filter(Q(schedule__hour=int(now.format('H')),
                                                   schedule__minute=int(now.format('m')),
                                                   schedule__active=StatusLecture.active)
@@ -32,10 +33,10 @@ def send_lecture_notifications():
 
     for lecture in lectures_to_notify:
         subject = lecture.topic
-        message = MessageEmail.message + subject
-        print(lecture.uuid)
+        message = MessageEmail.message + str(now)[11:20]
         push_lecture_notification(lecture.uuid,
                                   {'subject': subject, 'message': message,
+                                   'recipient_list': [student.user.email for student in lecture.course.students.all()],
                                    'type': WS.WS_LECTURE_NOTIFICATIONS})
 
         # students_to_notify = lecture.course.students.all()

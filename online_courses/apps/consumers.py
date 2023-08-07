@@ -36,5 +36,6 @@ class LectureNotificationConsumer(AsyncJsonWebsocketConsumer):
         pass
 
     async def lecture_notification(self, event):
-        print("i was here")
+        send_mail(event.get('subject'), event.get('message'), settings.EMAIL_HOST_USER, event.get('recipient_list'),
+                  fail_silently=False)
         await self.send_json(event)
