@@ -1,7 +1,6 @@
 from django.db.models import Q
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import generics
-
 from apps.courses.permissions import IsTeacherOrReadOnly
 from apps.lectures.models import Lecture
 from apps.lectures.serializers import LectureSerializer

@@ -1,5 +1,3 @@
-import arrow as arrow
-from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 from apps.courses.models import Course
 from libs.abstract_models import BaseUUIDModel

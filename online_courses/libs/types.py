@@ -40,3 +40,9 @@ class StatusLecture(models.TextChoices):
 
 class WS:
     WS_LECTURE_NOTIFICATIONS = 'lecture_notification'
+
+
+class MessageConfirmation:
+    subject = 'Activate Your Account'
+    accepted_confirmation = 'Thank you for your email confirmation.'
+    invalid_link = 'Activation link is invalid!'

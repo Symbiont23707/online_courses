@@ -1,7 +1,7 @@
 from rest_framework import serializers
-
 from libs.types import RoleTypes
 from .models import User, Student, Teacher
+from ..confirmations.serializers import AccountConfirmationSerializer
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -22,7 +22,13 @@ class UserSerializer(serializers.ModelSerializer):
         user = super().create(validated_data)
         if password is not None:
             user.set_password(password)
+        user.is_active = False
         user.save()
+
+        confirmation_serializer = AccountConfirmationSerializer(data={'user': user.uuid})
+        if confirmation_serializer.is_valid():
+            confirmation_serializer.save()
+
         roles_map = {
             RoleTypes.Student: (Student, {'user': user, 'specialty': specialty}),
             RoleTypes.Teacher: (Teacher, {'user': user}),

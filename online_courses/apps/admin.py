@@ -1,5 +1,4 @@
 from django.contrib import admin
-
 from apps.courses.models import Course
 from apps.home_tasks.models import HomeTaskResult, HomeTask
 from apps.lectures.models import Lecture

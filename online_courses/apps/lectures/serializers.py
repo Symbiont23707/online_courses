@@ -1,7 +1,5 @@
-import arrow
 from django.core.validators import MaxValueValidator, MinValueValidator
 from rest_framework import serializers
-
 from libs.types import Weekdays, Intervals, StatusLecture
 from .models import Lecture
 from ..courses.models import Course
@@ -42,4 +40,3 @@ class LectureSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError(ErrorMessage.PER001.value)
 
         return attrs
-

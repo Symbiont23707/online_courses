@@ -1,5 +1,4 @@
 from django.db import models
-
 from apps.users.models import Teacher, Student
 from libs.abstract_models import BaseUUIDModel
 

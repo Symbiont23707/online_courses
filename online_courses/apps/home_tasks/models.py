@@ -1,5 +1,4 @@
 from django.db import models
-
 from apps.lectures.models import Lecture
 from apps.users.models import Student
 from libs.abstract_models import BaseUUIDModel

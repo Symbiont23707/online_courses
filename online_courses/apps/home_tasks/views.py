@@ -1,7 +1,6 @@
 from django.db.models import Q
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import generics
-
 from apps.courses.permissions import IsTeacherOrReadOnly, IsStudentOrReadOnly
 from apps.home_tasks.models import HomeTaskResult, HomeTask
 from apps.home_tasks.serializers import HomeTaskSerializer, HomeTaskResultSerializer

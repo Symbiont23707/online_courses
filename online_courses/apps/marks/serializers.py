@@ -1,6 +1,5 @@
 from rest_framework import serializers
 from rest_framework.fields import CurrentUserDefault
-
 from apps.errors import ErrorMessage
 from apps.home_tasks.models import HomeTaskResult
 from apps.marks.models import Mark, Comment
