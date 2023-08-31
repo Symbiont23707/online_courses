@@ -16,4 +16,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('api.urls')),
     path('swagger/', schema_view.with_ui('swagger'), name='swagger'),
+    path('webhook/', include('apps.zoom.urls'))
 ]

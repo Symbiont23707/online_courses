@@ -1,6 +1,7 @@
 from django.db.models import Q
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import generics
+from rest_framework.permissions import IsAdminUser
 from apps.courses.permissions import IsTeacherOrReadOnly, IsStudentOrReadOnly
 from apps.home_tasks.models import HomeTaskResult, HomeTask
 from apps.home_tasks.serializers import HomeTaskSerializer, HomeTaskResultSerializer
@@ -9,7 +10,7 @@ from apps.home_tasks.serializers import HomeTaskSerializer, HomeTaskResultSerial
 class HomeTaskAPIView(generics.ListCreateAPIView):
     queryset = HomeTask.objects.all()
     serializer_class = HomeTaskSerializer
-    permission_classes = (IsTeacherOrReadOnly,)
+    permission_classes = (IsTeacherOrReadOnly, IsAdminUser)
     filter_backends = [DjangoFilterBackend]
 
     def get_queryset(self):
@@ -23,7 +24,7 @@ class HomeTaskDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = HomeTask.objects.all()
     serializer_class = HomeTaskSerializer
     lookup_field = 'uuid'
-    permission_classes = (IsTeacherOrReadOnly,)
+    permission_classes = (IsTeacherOrReadOnly, IsAdminUser)
 
     def get_queryset(self):
         return super().get_queryset().filter(
@@ -35,7 +36,7 @@ class HomeTaskDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
 class HomeTaskResultAPIView(generics.ListCreateAPIView):
     queryset = HomeTaskResult.objects.all()
     serializer_class = HomeTaskResultSerializer
-    permission_classes = (IsStudentOrReadOnly,)
+    permission_classes = (IsStudentOrReadOnly, IsAdminUser)
 
     def get_queryset(self):
         return super().get_queryset().filter(
@@ -48,7 +49,7 @@ class HomeTaskResultDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = HomeTaskResult.objects.all()
     serializer_class = HomeTaskResultSerializer
     lookup_field = 'uuid'
-    permission_classes = (IsStudentOrReadOnly,)
+    permission_classes = (IsStudentOrReadOnly, IsAdminUser)
 
     def get_queryset(self):
         return super().get_queryset().filter(

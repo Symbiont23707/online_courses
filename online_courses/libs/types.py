@@ -10,6 +10,7 @@ MARK_TYPES = (
 
 class MessageEmail:
     message = f'Lecture will be in '
+    link = 'This is a link to the meeting for the lecture: '
 
 
 class RoleTypes(models.TextChoices):

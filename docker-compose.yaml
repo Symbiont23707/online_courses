@@ -7,7 +7,7 @@ services:
       - "8000:8000"
     volumes:
       - ./online_courses:/online_courses
-    command: >
+    command: >                                         
       sh -c "python manage.py runserver 0.0.0.0:8000"
     depends_on:
       - database

@@ -7,9 +7,9 @@ from dotenv import load_dotenv
 load_dotenv()
 BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get('SECRET_KEY')
-DEBUG = True
 
-ALLOWED_HOSTS = []
+
+ALLOWED_HOSTS = ['71f3-37-214-30-189.ngrok-free.app', '127.0.0.1']
 
 INSTALLED_APPS = [
     'channels',
@@ -24,6 +24,8 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
     'rest_framework',
     'drf_yasg',
+    'allauth',
+    'allauth.account',
     'django_filters',
     'django_celery_beat',
     'django_celery_results',
@@ -87,6 +89,8 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
+DEBUG = True
 
 LANGUAGE_CODE = 'en-us'
 
@@ -165,6 +169,16 @@ DOMAIN = '127.0.0.1:8000'
 
 CELERY_BROKER_URL = 'redis://redis:6379'
 CELERY_TIMEZONE = 'Europe/Minsk'
+
+AUTH0_DOMAIN = 'dev-bfezppanax6u37sz.us.auth0.com'
+AUTH0_CLIENT_ID = '5bMD5OJIAWTthGcoUFzxEpfJW3U6TOsd'
+AUTH0_CLIENT_SECRET = 'UGaf75sdBrTfqS6Js8LBTMwnZxNL1JAU5yvzy_9VKkdz54CvumkBMeSgj0_S-egr'
+ZOOM_SECRET_TOKEN = '2O8vODOATOu5cOD-pcY9xg'
+
+ZOOM_CLIENT_ID = 'hITxVN6tQuCy5NrRsKrKUg'
+ZOOM_CLIENT_SECRET = 'UYkjdkjqe6L9titOt0EOKtZWr6lnpKAX'
+ZOOM_REDIRECT_URI = 'https://a8f5-37-214-75-136.ngrok.io/api/v1/users/create_zoom_meeting/'
+ZOOM_ACCOUNT_ID = 'qbWZX_YsQLiPBzLHDB416A'
 
 DEFAULT_FROM_EMAIL = 'webmaster@localhost'
 EMAIL_HOST = '172.17.0.1'

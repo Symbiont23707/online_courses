@@ -5,12 +5,13 @@ from rest_framework.filters import OrderingFilter
 from .models import Course
 from .permissions import IsTeacherOrReadOnly
 from .serializers import CourseSerializer
+from rest_framework.permissions import IsAdminUser
 
 
 class CourseAPIView(generics.ListCreateAPIView):
     queryset = Course.objects.all()
     serializer_class = CourseSerializer
-    permission_classes = (IsTeacherOrReadOnly,)
+    permission_classes = [IsTeacherOrReadOnly | IsAdminUser]
     filter_backends = [DjangoFilterBackend, OrderingFilter]
     filterset_fields = ['name', 'specialty']
     orderingset_fields = ['name']
@@ -25,7 +26,7 @@ class CourseDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Course.objects.all()
     serializer_class = CourseSerializer
     lookup_field = 'uuid'
-    permission_classes = (IsTeacherOrReadOnly,)
+    permission_classes = [IsTeacherOrReadOnly | IsAdminUser]
 
     def get_queryset(self):
         return super().get_queryset().filter(

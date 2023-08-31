@@ -15,6 +15,8 @@ redis
 django-redis==5.2.0
 django-recurrence~=1.11.1
 channels
+authlib
+django-allauth
 channels-redis
 arrow~=1.2.3
 uuid~=1.30

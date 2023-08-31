@@ -8,3 +8,4 @@ class Lecture(BaseUUIDModel):
     course = models.ForeignKey(Course, on_delete=models.PROTECT)
     presentation = models.FileField(upload_to='media')
     schedule = models.JSONField()
+
