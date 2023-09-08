@@ -1,6 +1,9 @@
+from django.contrib.auth.views import PasswordResetView
 from django.urls import path
-from apps.zoom.views import ZoomAPIClient
+from django.views.decorators.csrf import csrf_exempt
+
+from apps.zoom.views import ZoomWebhookView
 
 urlpatterns = [
-    path('event_notification/', ZoomAPIClient.zoom_api_client),
+    path('event_notification/', csrf_exempt(ZoomWebhookView.as_view())),
 ]

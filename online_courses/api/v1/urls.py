@@ -4,14 +4,17 @@ from apps.home_tasks.views import (HomeTaskAPIView, HomeTaskResultAPIView,
                                    HomeTaskDetailAPIView, HomeTaskResultDetailAPIView)
 from apps.lectures.views import LectureAPIView, LectureDetailAPIView, LectureByCourseAPIView
 from apps.marks.views import MarkAPIView, MarkDetailAPIView, CommentAPIView, CommentDetailAPIView
-from apps.users.views import RegisterView, activate
+from apps.users.views import RegisterView, activate, ResetPasswordView, ChangePasswordView, InviteView
 
 app_name = 'v1'
 
 urlpatterns = [
     path('users/', include([
         path('register/', RegisterView.as_view()),
-        path('activate/<uuid:uuid>/', activate),
+        path('activate/<uuid:activation_uuid>/', activate),
+        path('reset-password/', ResetPasswordView.as_view()),
+        path('change-password/', ChangePasswordView.as_view()),
+        path('invite/', InviteView.as_view())
     ])),
 
     path('courses/', include([

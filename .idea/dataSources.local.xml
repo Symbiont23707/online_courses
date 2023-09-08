@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="dataSourceStorageLocal" created-in="PY-232.9559.58">
-    <data-source name="course_db@localhost" uuid="899f7b1e-93ff-4219-b8c2-76d4bf997037">
+    <data-source name="course_db@localhost" uuid="376310e4-6a13-4eea-b8b4-f797684747e4">
       <database-info product="PostgreSQL" version="14.8 (Debian 14.8-1.pgdg120+1)" jdbc-version="4.2" driver-name="PostgreSQL JDBC Driver" driver-version="42.6.0" dbms="POSTGRES" exact-version="14.8" exact-driver-version="42.6">
         <identifier-quote-string>&quot;</identifier-quote-string>
       </database-info>

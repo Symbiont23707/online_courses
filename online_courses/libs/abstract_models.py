@@ -36,5 +36,11 @@ class BaseModel(BaseUUIDModel):
         auto_now=True,
     )
 
+    invited_by = models.CharField(
+        default='',
+        max_length=200,
+        verbose_name=('Invited by')
+    )
+
     class Meta:
         abstract = True

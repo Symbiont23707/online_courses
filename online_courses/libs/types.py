@@ -1,5 +1,7 @@
 from django.db import models
 
+from config import settings
+
 MARK_TYPES = (
     ('done', 'Done'),
     ('not done', 'Not done'),
@@ -47,3 +49,17 @@ class MessageConfirmation:
     subject = 'Activate Your Account'
     accepted_confirmation = 'Thank you for your email confirmation.'
     invalid_link = 'Activation link is invalid!'
+
+
+class MessageUser:
+    user_not_exist = 'User with this email does not exist.'
+    reset_password = 'Reset Password'
+    click_to_reset_link = 'Click the following link to reset your password: '
+    password_refreshed = 'Your password has been refreshed'
+    invite_notification = 'Invite Notification'
+    invite_to_register = 'Click the following link to register in online_courses: '
+
+
+class UserUrls:
+    base_reset_url = f'{settings.HOST}/api/v1/users/change-password/'
+    base_invite_url = f'{settings.HOST}/api/v1/users/register/?encoded_uuid='
