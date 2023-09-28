@@ -1,4 +1,3 @@
-from django.contrib.auth.views import PasswordResetView
 from django.urls import path
 from django.views.decorators.csrf import csrf_exempt
 

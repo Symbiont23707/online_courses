@@ -10,7 +10,7 @@ from apps.home_tasks.serializers import HomeTaskSerializer, HomeTaskResultSerial
 class HomeTaskAPIView(generics.ListCreateAPIView):
     queryset = HomeTask.objects.all()
     serializer_class = HomeTaskSerializer
-    permission_classes = (IsTeacherOrReadOnly, IsAdminUser)
+    permission_classes = [IsTeacherOrReadOnly | IsAdminUser]
     filter_backends = [DjangoFilterBackend]
 
     def get_queryset(self):

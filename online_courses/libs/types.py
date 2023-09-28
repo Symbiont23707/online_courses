@@ -61,5 +61,18 @@ class MessageUser:
 
 
 class UserUrls:
-    base_reset_url = f'{settings.HOST}/api/v1/users/change-password/'
-    base_invite_url = f'{settings.HOST}/api/v1/users/register/?encoded_uuid='
+    reset_url = f'{settings.HOST}/api/v1/users/reset-password/'
+    change_url = f'{settings.HOST}/api/v1/users/change-password/?'
+    invite_url = f'{settings.HOST}/api/v1/users/register/?'
+
+class CourseUrls:
+    course_api_view_url = f'{settings.HOST}/api/v1/courses/'
+
+class HomeTaskUrls:
+    home_task_api_view_url = f'{settings.HOST}/api/v1/home_tasks/'
+
+class LectureUrls:
+    lecture_api_view_url = f'{settings.HOST}/api/v1/lectures/'
+
+class ZoomUrls:
+    zoom_webhook_url = f'{settings.HOST}/webhook/event_notification/'

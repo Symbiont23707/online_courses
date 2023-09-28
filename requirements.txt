@@ -7,7 +7,7 @@ drf-yasg==1.21.6
 django-filter==23.2
 python-dotenv==1.0.0
 django-rest-swagger==2.2.0
-django-celery-results==2.3.1
+django-celery-results
 celery~=5.3.1
 daphne
 django-celery-beat==2.5.0
@@ -18,5 +18,6 @@ channels
 authlib
 django-allauth
 channels-redis
+coverage
 arrow~=1.2.3
 uuid~=1.30

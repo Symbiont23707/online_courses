@@ -28,6 +28,7 @@ class WebhookZoom:
         meeting = Meeting.objects.select_for_update().get(meeting_id=meeting_id)
         meeting.participants_count += 1
         meeting.save()
+        return {"participants_count":meeting.participants_count}
 
     def handle_endpoint_url_validation(self, body):
         plain_token = body['payload']['plainToken']

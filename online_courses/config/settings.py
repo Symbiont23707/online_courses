@@ -8,9 +8,9 @@ load_dotenv()
 BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get('SECRET_KEY')
 
-HOST = 'https://5672-37-214-42-230.ngrok-free.app'
+HOST = os.environ.get('HOST')
 
-ALLOWED_HOSTS = ['5672-37-214-42-230.ngrok-free.app', '127.0.0.1']
+ALLOWED_HOSTS = ['8ef7-37-214-45-154.ngrok-free.app', '127.0.0.1']
 
 INSTALLED_APPS = [
     'channels',
@@ -22,6 +22,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.postgres',
+    'coverage',
     'rest_framework_simplejwt',
     'rest_framework',
     'drf_yasg',
@@ -29,8 +30,8 @@ INSTALLED_APPS = [
     'allauth.account',
     'django_filters',
     'django_celery_beat',
-    'django_celery_results',
     'django_redis',
+    'celery',
     'apps',
 ]
 
@@ -169,8 +170,10 @@ LOGGING = {
 
 DOMAIN = '127.0.0.1:8000'
 
+
 CELERY_BROKER_URL = 'redis://redis:6379'
 CELERY_TIMEZONE = 'Europe/Minsk'
+CELERY_RESULT_BACKEND = 'redis://redis:6379'
 
 AUTH0_DOMAIN = 'dev-bfezppanax6u37sz.us.auth0.com'
 AUTH0_CLIENT_ID = '5bMD5OJIAWTthGcoUFzxEpfJW3U6TOsd'

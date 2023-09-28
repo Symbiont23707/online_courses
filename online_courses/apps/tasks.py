@@ -38,6 +38,7 @@ def send_lecture_notifications():
     for lecture in lectures_to_notify:
         subject = lecture.topic
         start_time = arrow.utcnow().shift(hours=+4).format("YYYY-MM-DD")
+
         meeting_data = client_zoom.create_zoom_meeting(
             topic=subject,
             start_time=start_time,

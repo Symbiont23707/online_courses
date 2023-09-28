@@ -1,3 +1,4 @@
+from urllib.parse import urlencode
 from django.contrib.auth import get_user_model
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from django.shortcuts import get_object_or_404
@@ -67,8 +68,8 @@ class PasswordResetSerializer(serializers.Serializer):
         token = PasswordResetTokenGenerator().make_token(user)
         encoded_uuid = urlsafe_base64_encode(force_bytes(user.uuid))
 
-        params = {'token': token, 'encoded_uuid': encoded_uuid}
-        reset_url = f"{UserUrls.base_reset_url}?{'&'.join([f'{key}={value}' for key, value in params.items()])}"
+        query_string = urlencode(dict(token=token, encoded_uuid=encoded_uuid))
+        reset_url = f'{UserUrls.change_url}{query_string}'
 
         mail = Mail(
             subject=MessageUser.reset_password,
@@ -116,7 +117,9 @@ class InviteSerializer(serializers.Serializer):
         user = self.context['request'].user
 
         encoded_uuid = urlsafe_base64_encode(force_bytes(user.uuid))
-        invite_url = UserUrls.base_invite_url + encoded_uuid
+
+        query_string = urlencode(dict(encoded_uuid=encoded_uuid))
+        invite_url = f'{UserUrls.invite_url}{query_string}'
 
         mail = Mail(
             subject=MessageUser.invite_notification,

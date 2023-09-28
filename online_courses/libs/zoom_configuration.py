@@ -1,9 +1,12 @@
 from django.db import models
 
+from config import settings
+
 
 class ZoomUrls(models.TextChoices):
     token = 'https://zoom.us/oauth/token'
     zoom_meeting = 'https://api.zoom.us/v2/users/me/meetings'
+    event = f'{settings.HOST}/webhook/event_notification/'
 
 
 data = {
