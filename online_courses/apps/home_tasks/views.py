@@ -36,7 +36,7 @@ class HomeTaskDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
 class HomeTaskResultAPIView(generics.ListCreateAPIView):
     queryset = HomeTaskResult.objects.all()
     serializer_class = HomeTaskResultSerializer
-    permission_classes = (IsStudentOrReadOnly, IsAdminUser)
+    permission_classes = [IsStudentOrReadOnly | IsAdminUser]
 
     def get_queryset(self):
         return super().get_queryset().filter(
@@ -49,7 +49,7 @@ class HomeTaskResultDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = HomeTaskResult.objects.all()
     serializer_class = HomeTaskResultSerializer
     lookup_field = 'uuid'
-    permission_classes = (IsStudentOrReadOnly, IsAdminUser)
+    permission_classes = [IsStudentOrReadOnly | IsAdminUser]
 
     def get_queryset(self):
         return super().get_queryset().filter(

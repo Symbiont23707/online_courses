@@ -1,7 +1,3 @@
-from unittest import mock
-from unittest.mock import ANY
-
-from django.core.files import File
 from django.core.files.uploadedfile import SimpleUploadedFile
 from rest_framework import status
 from rest_framework.test import APITestCase
@@ -9,7 +5,7 @@ from apps.courses.models import Course
 from apps.lectures.models import Lecture
 from apps.users.models import Teacher, Student, User
 from libs.types import LectureUrls
-import json
+
 
 class LectureAPIViewTest(APITestCase):
     def setUp(self):
@@ -112,3 +108,52 @@ class LectureAPIViewTest(APITestCase):
         response = self.client.post(self.url, data, format='multipart')
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
+class LectureDetailAPIViewTest(APITestCase):
+    def setUp(self):
+        self.teacher = Teacher.objects.create(
+            user=User.objects.create_user(
+                username='teacher',
+                password='password',
+                email='teacher@teacher.com',
+            )
+        )
+        self.student = Student.objects.create(
+            user=User.objects.create_user(
+                username='student',
+                password='password',
+                email='student@student.com',
+            ),
+            specialty='Programming'
+        )
+        self.course = Course.objects.create(
+            name='Python',
+            specialty='Programming'
+        )
+        self.course2 = Course.objects.create(
+            name='Java',
+            specialty='Programming'
+        )
+        self.course.teachers.add(self.teacher)
+        self.course.students.add(self.student)
+        self.course2.teachers.add(self.teacher)
+        self.schedule_data = {
+            'weekday': None,
+            'day': None,
+            'hour': 10,
+            'minute': 36,
+            'active':'active',
+            'interval': "day"
+        }
+        self.lecture = Lecture.objects.create(
+            topic="OOP",
+            course=self.course,
+            presentation='media/pop_y1PlE5O.pdf',
+            schedule=self.schedule_data
+        )
+        self.lecture2 = Lecture.objects.create(
+            topic="POP",
+            course=self.course2,
+            presentation='media/pop_y1PlE5O.pdf',
+            schedule=self.schedule_data
+        )
+        self.url = LectureUrls.lecture_api_view_url
