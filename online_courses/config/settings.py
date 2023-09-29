@@ -107,6 +107,8 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+DATA_UPLOAD_MAX_NUMBER_FIELDS = 1000
+
 AUTH_USER_MODEL = 'apps.User'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
@@ -170,6 +172,7 @@ LOGGING = {
 
 DOMAIN = '127.0.0.1:8000'
 
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 CELERY_BROKER_URL = 'redis://redis:6379'
 CELERY_TIMEZONE = 'Europe/Minsk'

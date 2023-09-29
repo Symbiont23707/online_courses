@@ -26,7 +26,7 @@ class LectureDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Lecture.objects.all()
     serializer_class = LectureSerializer
     lookup_field = 'uuid'
-    permission_classes = (IsTeacherOrReadOnly, IsAdminUser)
+    permission_classes = [IsTeacherOrReadOnly | IsAdminUser]
 
     def get_queryset(self):
         return super().get_queryset().filter(
@@ -38,7 +38,7 @@ class LectureDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
 class LectureByCourseAPIView(generics.ListAPIView):
     queryset = Lecture.objects.all()
     serializer_class = LectureSerializer
-    permission_classes = (IsTeacherOrReadOnly, IsAdminUser)
+    permission_classes = [IsTeacherOrReadOnly | IsAdminUser]
 
     def get_queryset(self):
         return super().get_queryset().filter(Q(course=self.kwargs['uuid'])

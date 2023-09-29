@@ -11,7 +11,7 @@ from apps.marks.serializers import MarkSerializer, CommentSerializer
 class MarkAPIView(generics.ListCreateAPIView):
     queryset = Mark.objects.all()
     serializer_class = MarkSerializer
-    permission_classes = (IsTeacherOrReadOnly, IsAdminUser)
+    permission_classes = [IsTeacherOrReadOnly | IsAdminUser]
     filter_backends = [DjangoFilterBackend]
     ordering_fields = ['rating']
 
@@ -26,7 +26,7 @@ class MarkDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Mark.objects.all()
     serializer_class = MarkSerializer
     lookup_field = 'uuid'
-    permission_classes = (IsTeacherOrReadOnly, IsAdminUser)
+    permission_classes = [IsTeacherOrReadOnly | IsAdminUser]
 
     def get_queryset(self):
         return super().get_queryset().filter(
@@ -38,7 +38,7 @@ class MarkDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
 class CommentAPIView(generics.ListCreateAPIView):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
-    permission_classes = (IsTeacherOrReadOnly,  IsStudentOrReadOnly, IsAdminUser)
+    permission_classes = [IsTeacherOrReadOnly | IsStudentOrReadOnly | IsAdminUser]
 
     def get_queryset(self):
         return super().get_queryset().filter(
@@ -51,7 +51,7 @@ class CommentDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
     lookup_field = 'uuid'
-    permission_classes = (IsTeacherOrReadOnly, IsAdminUser)
+    permission_classes = [IsTeacherOrReadOnly | IsAdminUser]
 
     def get_queryset(self):
         return super().get_queryset().filter(

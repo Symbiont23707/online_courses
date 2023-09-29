@@ -1,3 +1,7 @@
+from unittest import mock
+from unittest.mock import ANY
+
+from django.core.files import File
 from django.core.files.uploadedfile import SimpleUploadedFile
 from rest_framework import status
 from rest_framework.test import APITestCase
@@ -67,49 +71,43 @@ class LectureAPIViewTest(APITestCase):
         response = self.client.get(self.url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
-    # def test_list_lectures_teacher_failure(self):
-    #     self.client.login(username='teacher', password='password123')
-    #     response = self.client.get(self.url)
-    #     self.assertEqual(response.status_code, status.HTTP_200_OK)
-    #
-    # def test_list_lectures_student_failure(self):
-    #     self.client.login(username='student123', password='password123')
-    #     response = self.client.get(self.url)
-    #     self.assertEqual(response.status_code, status.HTTP_200_OK)
-
     def test_create_lecture_teacher_success(self):
         self.client.login(username='teacher', password='password')
-        presentation_file = SimpleUploadedFile("pop_y1PlE5O.pdf", b"file_content", content_type="application/pdf")
+        presentation_file = SimpleUploadedFile(
+            "pop_y1PlE5O.pdf",
+            b"file_content",
+            content_type="application/pdf"
+        )
         data = {
             'topic': 'Advanced Python',
-            'course': self.course2.uuid,
+            'course': str(self.course2.uuid),
             'presentation': presentation_file,
-            'schedule': {
-                'weekday': None,
-                'day': None,
-                'hour': 10,
-                'minute': 36,
-                'active': 'active',
-                'interval': "day"
-            },
+            'schedule.weekday': '',
+            'schedule.day': '',
+            'schedule.hour': 10,
+            'schedule.minute': 36,
+            'schedule.active': 'active',
+            'schedule.interval': 'day',
         }
-        response = self.client.post(self.url, data, format='json')
+        response = self.client.post(self.url, data, format='multipart')
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
     def test_create_lecture_student_failure(self):
         self.client.login(username='student', password='password')
+        presentation_file = SimpleUploadedFile(
+            "pop_y1PlE5O.pdf",
+            b"file_content",
+            content_type="application/pdf"
+        )
         data = {
             'topic': 'Advanced Python',
-            'course': self.course.uuid,
-            'presentation': 'media/pop_y1PlE5O.pdf',
-            'schedule': {
-            'weekday': None,
-            'day': None,
-            'hour': 10,
-            'minute': 36,
-            'active': 'active',
-            'interval': "day"
-            },
+            'course': str(self.course2.uuid),
+            'presentation': presentation_file,
+            'schedule.weekday': '',
+            'schedule.day': '',
+            'schedule.minute': 36,
+            'schedule.active': 'active',
+            'schedule.interval': 'day',
         }
         response = self.client.post(self.url, data, format='multipart')
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
