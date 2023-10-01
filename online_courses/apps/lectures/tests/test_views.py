@@ -101,6 +101,7 @@ class LectureAPIViewTest(APITestCase):
             'presentation': presentation_file,
             'schedule.weekday': '',
             'schedule.day': '',
+            'schedule.hour': 10,
             'schedule.minute': 36,
             'schedule.active': 'active',
             'schedule.interval': 'day',
@@ -125,7 +126,7 @@ class LectureDetailAPIViewTest(APITestCase):
             ),
             specialty='Programming'
         )
-        self.course = Course.objects.create(
+        self.course1 = Course.objects.create(
             name='Python',
             specialty='Programming'
         )
@@ -133,9 +134,9 @@ class LectureDetailAPIViewTest(APITestCase):
             name='Java',
             specialty='Programming'
         )
-        self.course.teachers.add(self.teacher)
-        self.course.students.add(self.student)
-        self.course2.teachers.add(self.teacher)
+        self.course1.teachers.add(self.teacher)
+        self.course1.students.add(self.student)
+        self.course2.students.add(self.student)
         self.schedule_data = {
             'weekday': None,
             'day': None,
@@ -144,9 +145,9 @@ class LectureDetailAPIViewTest(APITestCase):
             'active':'active',
             'interval': "day"
         }
-        self.lecture = Lecture.objects.create(
+        self.lecture1 = Lecture.objects.create(
             topic="OOP",
-            course=self.course,
+            course=self.course1,
             presentation='media/pop_y1PlE5O.pdf',
             schedule=self.schedule_data
         )
@@ -157,3 +158,76 @@ class LectureDetailAPIViewTest(APITestCase):
             schedule=self.schedule_data
         )
         self.url = LectureUrls.lecture_api_view_url
+
+    def test_lecture_retrieve_teacher_success(self):
+        self.client.login(username='teacher', password='password')
+        response = self.client.get(f'{self.url}{self.lecture1.uuid}/')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_lecture_retrieve_student_success(self):
+        self.client.login(username='student', password='password')
+        response = self.client.get(f'{self.url}{self.lecture1.uuid}/')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_lecture_retrieve_teacher_failure(self):
+        self.client.login(username='teacher', password='password')
+        response = self.client.get(f'{self.url}{self.lecture2.uuid}/')
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+
+    def test_lecture_retrieve_student_failure(self):
+        self.client.login(username='student', password='password')
+        response = self.client.get(f'{self.url}{self.lecture2.uuid}/')
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+
+    def test_lecture_update_teacher_success(self):
+        self.client.login(username='teacher', password='password')
+        presentation_file = SimpleUploadedFile(
+            "pop_y1PlE5O.pdf",
+            b"file_content",
+            content_type="application/pdf"
+        )
+        data = {
+            'topic': 'Python',
+            'course': str(self.course1.uuid),
+            'presentation': presentation_file,
+            'schedule.weekday': '',
+            'schedule.day': '',
+            'schedule.hour': 10,
+            'schedule.minute': 36,
+            'schedule.active': 'active',
+            'schedule.interval': 'day',
+        }
+        response = self.client.put(f'{self.url}{self.lecture1.uuid}/', data, format='multipart')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data['topic'],'Python')
+
+    def test_lecture_update_student_failure(self):
+        self.client.login(username='student', password='password')
+        presentation_file = SimpleUploadedFile(
+            "pop_y1PlE5O.pdf",
+            b"file_content",
+            content_type="application/pdf"
+        )
+        data = {
+            'topic': 'Python',
+            'course': str(self.course1.uuid),
+            'presentation': presentation_file,
+            'schedule.weekday': '',
+            'schedule.day': '',
+            'schedule.hour': 10,
+            'schedule.minute': 36,
+            'schedule.active': 'active',
+            'schedule.interval': 'day',
+        }
+        response = self.client.put(f'{self.url}{self.lecture1.uuid}/', data, format='multipart')
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
+    def test_lecture_delete_teacher_success(self):
+        self.client.login(username='teacher', password='password')
+        response = self.client.delete(f'{self.url}{self.lecture1.uuid}/')
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+
+    def test_lecture_delete_student_failure(self):
+        self.client.login(username='student', password='password')
+        response = self.client.delete(f'{self.url}{self.lecture1.uuid}/')
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)

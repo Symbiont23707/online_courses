@@ -74,6 +74,12 @@ class HomeTaskUrls:
 class HomeTaskResultUrls:
     home_task_result_api_view_url = f'{settings.HOST}/api/v1/home_tasks/completed/'
 
+class MarkUrls:
+    mark_api_view_url = f'{settings.HOST}/api/v1/marks/'
+
+class CommentUrls:
+    comment_api_view_url = f'{settings.HOST}/api/v1/marks/comments/'
+
 class LectureUrls:
     lecture_api_view_url = f'{settings.HOST}/api/v1/lectures/'
 

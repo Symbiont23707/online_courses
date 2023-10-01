@@ -10,7 +10,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 
 HOST = os.environ.get('HOST')
 
-ALLOWED_HOSTS = ['8ef7-37-214-45-154.ngrok-free.app', '127.0.0.1']
+ALLOWED_HOSTS = ['a56c-37-214-55-136.ngrok-free.app', '127.0.0.1']
 
 INSTALLED_APPS = [
     'channels',

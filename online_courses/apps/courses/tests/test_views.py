@@ -146,4 +146,3 @@ class CourseDetailAPIViewTest(APITestCase):
         self.client.login(username='student', password='password')
         response = self.client.delete(f'{self.url}{self.course1.uuid}/')
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
-        

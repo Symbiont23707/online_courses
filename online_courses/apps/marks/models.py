@@ -1,6 +1,6 @@
 from django.db import models
 from apps.home_tasks.models import HomeTaskResult
-from apps.users.models import User, Teacher
+from apps.users.models import User
 from libs.abstract_models import BaseUUIDModel
 from libs.types import MARK_TYPES
 

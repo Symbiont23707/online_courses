@@ -1,3 +1,4 @@
+from django.db.models import Q
 from rest_framework import serializers
 from rest_framework.fields import CurrentUserDefault
 from apps.errors import ErrorMessage
@@ -17,10 +18,11 @@ class MarkSerializer(serializers.ModelSerializer):
         home_task_result = attrs['home_task_result']
         user = self.context['request'].user
 
-        if not HomeTaskResult.objects.filter(uuid=home_task_result.uuid,
-                                             home_task__lectures__course__teachers__user=user).exists():
+        if not HomeTaskResult.objects.filter(
+                uuid=home_task_result.uuid,
+                home_task__lectures__course__teachers__user=user,
+                ).exists():
             raise serializers.ValidationError(ErrorMessage.PER001.value)
-
         return attrs
 
 
@@ -40,5 +42,4 @@ class CommentSerializer(serializers.ModelSerializer):
 
         if mark.created_by != user:
             raise serializers.ValidationError(ErrorMessage.PER001.value)
-
         return attrs
